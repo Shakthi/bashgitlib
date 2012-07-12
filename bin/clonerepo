@@ -1,0 +1,11 @@
+#!/bin/bash
+set -x
+dest=$1
+selfdir=$(dirname $0)
+BGIT=$($selfdir/bgit)
+gitdir=$BGIT
+
+git clone $gitdir $dest
+
+
+

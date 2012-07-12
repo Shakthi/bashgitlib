@@ -1,5 +1,11 @@
 #!/bin/bash
 selfdir=$(dirname $0)
 
+if [[ $# == 0 ]]
+ then
+ echo $(cat $selfdir/../config/gitdir )
+ exit 0
+fi
+
 
 exec git --git-dir=$(cat $selfdir/../config/gitdir ) $*
