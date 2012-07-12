@@ -10,8 +10,5 @@ cd $dest
 mkdir packages/
 git config core.worktree ../../
 mv .git packages/gitdb
-
-
 ./bin/resetroot
-
 
