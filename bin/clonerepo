@@ -14,3 +14,4 @@ mv .git packages/gitdb
 ./bin/bgit update-index --assume-unchanged ./config/gitdir
 
 echo packages/gitdb >>packages/gitdb/info/exclude
+./bin/bgit status
