@@ -1,0 +1,2 @@
+#!/bin/bash
+exec git --git-dir=/Users/shakthiprasadgs/bgit/packages/gitdb 
