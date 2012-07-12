@@ -6,6 +6,12 @@ BGIT=$($selfdir/bgit)
 gitdir=$BGIT
 
 git clone $gitdir $dest
+cd $dest
+mkdir packages/
+git config core.worktree ../../
+mv .git packages/gitdb
 
+
+./bin/resetroot
 
 
