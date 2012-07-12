@@ -8,6 +8,6 @@ if  git --git-dir $git_dir status 2>/dev/null ;
 else
  pushd "$selfdir/../packages/gitdb"
  echo $(pwd) >$selfdir/../config/gitdir
- 
+    
 fi 
 

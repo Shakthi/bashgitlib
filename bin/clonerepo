@@ -11,4 +11,6 @@ mkdir packages/
 git config core.worktree ../../
 mv .git packages/gitdb
 ./bin/resetroot
+./bin/bgit update-index --assume-unchanged ./config/gitdir
 
+echo packages/gitdb >>packages/gitdb/info/exclude
