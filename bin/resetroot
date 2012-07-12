@@ -1,0 +1,13 @@
+#!/bin/bash
+#set -x
+selfdir=$(dirname $0)
+git_dir=$(cat $selfdir/../config/gitdir ) 
+
+if  git --git-dir $git_dir status 2>/dev/null ;
+ then exit 0
+else
+ pushd "$selfdir/../packages/gitdb"
+ echo $(pwd) >$selfdir/../config/gitdir
+ 
+fi 
+
