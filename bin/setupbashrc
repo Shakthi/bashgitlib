@@ -1,0 +1,40 @@
+#!/bin/bash
+if [[ $0 == "-bash" ]];
+then
+
+ #bash source continues
+return
+fi
+
+
+selfdir=$(cd 1>/dev/null $(dirname $0);pwd)
+
+filename=$(basename $0)
+
+
+if  ! grep %%BGIT_IMPORT_SETUP%% ~/.bash_profile -q ; then
+tempfile=$(mktemp /tmp/setupbash.XXX)
+#cat ~/.bash_profile|sed 2
+
+
+awk -v n=2 -v s=". $0   #%%BGIT_IMPORT_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
+
+cat  $tempfile >~/.bash_profile
+rm $tempfile
+else
+tempfile=$(mktemp /tmp/setupbash.XXX)
+
+linenumber=$(grep -n %%BGIT_IMPORT_SETUP%% ~/.bash_profile|sed s/^\\\([0-9]\\\)*.*/\\1/)
+
+cat ~/.bash_profile | sed $linenumber's'!.*!". $0   #%%BGIT_IMPORT_SETUP%%"!  >$tempfile
+cat  $tempfile >~/.bash_profile
+rm $tempfile
+
+
+fi
+
+
+
+
+
+
