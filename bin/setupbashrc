@@ -5,30 +5,57 @@ then
  #bash source continues
 return
 fi
-
+set -x
 
 selfdir=$(cd 1>/dev/null $(dirname $0);pwd)
 
 filename=$(basename $0)
+basedir=$(cd 1>/dev/null $(dirname $0)/../;pwd)
+
 
 
 if  ! grep %%BGIT_IMPORT_SETUP%% ~/.bash_profile -q ; then
+
+
+
 tempfile=$(mktemp /tmp/setupbash.XXX)
-#cat ~/.bash_profile|sed 2
-
-
-awk -v n=2 -v s=". $0   #%%BGIT_IMPORT_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
+awk -v n=2 -v s="BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
 
 cat  $tempfile >~/.bash_profile
 rm $tempfile
+
+
+
+tempfile=$(mktemp /tmp/setupbash.XXX)
+awk -v n=2 -v s=". \$BGIT_BASEDIR/bin/setupbashrc   #%%BGIT_IMPORT_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
+
+cat  $tempfile >~/.bash_profile
+rm $tempfile
+
+
+
 else
+
+tempfile=$(mktemp /tmp/setupbash.XXX)
+
+linenumber=$(grep -n %%BGIT_IMPORTDIR_SETUP%% ~/.bash_profile|sed s/^\\\([0-9]\\\)*.*/\\1/)
+
+cat ~/.bash_profile | sed $linenumber's'!.*!"BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%"!  >$tempfile
+cat  $tempfile >~/.bash_profile
+rm $tempfile
+
+
+
 tempfile=$(mktemp /tmp/setupbash.XXX)
 
 linenumber=$(grep -n %%BGIT_IMPORT_SETUP%% ~/.bash_profile|sed s/^\\\([0-9]\\\)*.*/\\1/)
 
-cat ~/.bash_profile | sed $linenumber's'!.*!". $0   #%%BGIT_IMPORT_SETUP%%"!  >$tempfile
+cat ~/.bash_profile | sed $linenumber's'!.*!". \$BGIT_BASEDIR/bin/setupbashrc   #%%BGIT_IMPORT_SETUP%%"!  >$tempfile
 cat  $tempfile >~/.bash_profile
 rm $tempfile
+
+
+
 
 
 fi
