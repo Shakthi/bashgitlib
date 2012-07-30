@@ -19,7 +19,7 @@ if  ! grep %%BGIT_IMPORT_SETUP%% ~/.bash_profile -q ; then
 
 
 tempfile=$(mktemp /tmp/setupbash.XXX)
-awk -v n=2 -v s="BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
+awk -v n=2 -v s="export BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
 
 cat  $tempfile >~/.bash_profile
 rm $tempfile
@@ -40,7 +40,7 @@ tempfile=$(mktemp /tmp/setupbash.XXX)
 
 linenumber=$(grep -n %%BGIT_IMPORTDIR_SETUP%% ~/.bash_profile|sed s/^\\\([0-9]\\\)*.*/\\1/)
 
-cat ~/.bash_profile | sed $linenumber's'!.*!"BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%"!  >$tempfile
+cat ~/.bash_profile | sed $linenumber's'!.*!"export BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%"!  >$tempfile
 cat  $tempfile >~/.bash_profile
 rm $tempfile
 

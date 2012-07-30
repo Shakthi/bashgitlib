@@ -1,0 +1,25 @@
+#!/bin/bash
+if [ $# == 0 ];then
+ $BGIT_BASEDIR/bbin/bgit commit --amend
+else
+
+  filename=$1
+   comment=$(date +%s)
+
+ 
+  if [ -f $filename ];then
+     vi $filename
+     $BGIT_BASEDIR/bbin/bgit commit -m $comment $filename
+  else
+     vi $filename
+
+    if [ -f $filename ];then
+     $BGIT_BASEDIR/bbin/bgit add $filename
+     $BGIT_BASEDIR/bbin/bgit commit -m $comment
+    fi
+
+ 
+  fi
+
+
+fi
