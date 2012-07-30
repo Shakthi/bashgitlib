@@ -14,5 +14,7 @@ mv .git packages/gitdb
 ./bbin/bgit update-index --assume-unchanged ./config/gitdir
 
 echo packages/gitdb >>packages/gitdb/info/exclude
+echo .DS_Store >>packages/gitdb/info/exclude
+
 ./bbin/bgit repack
 ./bbin/bgit status
