@@ -2,8 +2,9 @@
 if [[ $0 == "-bash" ]];
 then
 . $BGIT_BASEDIR/lib/bin/import.bash
- #bash source continues
-return
+export PATH=$PATH:/opt/local/bin/:$BGIT_BASEDIR/bin;
+
+return 0
 fi
 set -x
 

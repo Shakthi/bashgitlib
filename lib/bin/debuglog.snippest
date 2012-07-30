@@ -1,0 +1,61 @@
+#!/bin/bash
+#debuglog
+#description -- This snippest  bla bla
+ 
+debuglog_imported=1
+
+function debuglog_conditionally()
+{
+   if [[ $debuglog_debug == on ]];then
+    debuglog_push 
+   fi
+}
+
+function debuglog_unconditionally()
+{
+   if [[ $debuglog_debug == on ]];then
+    debuglog_pop 
+   fi
+}
+
+function debuglog_push()
+{
+  
+  if [[ $debuglogstack  == 0 ]];then
+   case $- in
+   *x*)    debuglogstack=1;
+    ;;
+    *)     debuglogstack=0
+    ;;
+   esac
+  fi 	
+  debuglogstack=$(( 1 + debuglogstack ))
+  if [[ $debuglogstack > 0 ]];then
+   set -x
+  fi 	
+}
+
+function debuglog_die()
+{
+  echo $* 1>&2 ;
+  exit 1
+}
+function debuglog_pop()
+{
+  debuglogstack=$((  debuglogstack -1 ))
+  if [[ $debuglogstack < 1 ]];then
+   set +x
+  fi 	
+}
+function debuglog_unimport()
+{
+
+ unset debuglog_imported
+ unset debuglog_push
+ unset debuglog_pop
+ unset debuglogstack
+ unset debuglog_die
+ unset debuglog_unimport
+}
+
+
