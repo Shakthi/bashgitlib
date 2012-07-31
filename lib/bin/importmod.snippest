@@ -18,7 +18,6 @@ importmod_edit()
 
 importmod_add()
 {
- set -x
  local name=$1
   local fullname=$import_path/$name.snippest
   local tempfile=`mktemp -q /tmp/import.XXXXXX`
@@ -31,5 +30,4 @@ importmod_add()
   fi
   rm $tempfile
 
-set +x
 }
