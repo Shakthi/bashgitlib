@@ -18,6 +18,26 @@ function debuglog_unconditionally()
    fi
 }
 
+function debuglog_oncondition()
+{
+   local condition=$1
+    if [ -f $import_datapath/debuglog_list ];then
+      if grep -q $condtion $import_datapath/debuglog_list; then
+       debuglog_push 
+      fi
+    fi
+}
+
+function debuglog_offcondition()
+{
+   local condition=$1
+    if [ -f $import_datapath/debuglog_list ];then
+      if grep -q $condtion $import_datapath/debuglog_list; then
+       debuglog_pop 
+      fi
+    fi
+}
+
 function debuglog_push()
 {
   

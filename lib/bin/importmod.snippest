@@ -15,3 +15,21 @@ importmod_edit()
     fi
 
 }
+
+importmod_add()
+{
+ set -x
+ local name=$1
+  local fullname=$import_path/$name.snippest
+  local tempfile=`mktemp -q /tmp/import.XXXXXX`
+  cat $import_datapath/snippettemplate | sed s/snippetname/$name/ > $tempfile 
+  vi "+r $tempfile"  $fullname
+  if [ -f $fullname ];then
+    $BGIT_BASEDIR/bbin/bgit add $fullname
+    $BGIT_BASEDIR/bbin/bgit commit -m "New-snippet-added" $fullname; 
+    source $fullname
+  fi
+  rm $tempfile
+
+set +x
+}
