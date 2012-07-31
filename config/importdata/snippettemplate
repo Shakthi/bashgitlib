@@ -1,0 +1,14 @@
+#!/bin/bash
+#snippetname
+#description -- This snippest  bla bla
+#import othersnippet
+
+snippetname_imported=1
+
+function snippetname_unimport()
+{
+
+ unset snippetname_imported
+ unset snippetname_unimport
+}
+
