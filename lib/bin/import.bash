@@ -50,10 +50,23 @@ function unimport()
 
 function import_list()
 {
-  ls $import_path|sed s+.snippest$++
+  ls $import_path|grep snippest|sed s+.snippest$++
 }
 
-complete -W "$(import_list)"  import
+
+function importtobe_list()
+{
+    for i in $(ls $import_path|grep snippest|sed s+.snippest$++);
+     do
+        local iimported=$(eval echo \$$i"_imported")
+        if test -z $iimported ;then
+            echo $i 
+        fi        
+     done
+    
+}
+
+
 
 function  import_unimport()
 {
@@ -73,5 +86,7 @@ for i in $(cat $import_datapath/autoimport);do
  import $i 
 done
 fi
+
+complete -W "$(importtobe_list)"  import
 
 
