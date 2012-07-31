@@ -1,0 +1,68 @@
+#!/bin/bash
+#google
+#description -- This snippest  bla bla
+#import othersnippet
+
+google_imported=1
+google_searh()
+{
+       local search=
+	if [ $# -eq 0 ]
+		then
+			echo "Usage: chkargs argument..." 1>&2
+	    exit 1
+	fi
+	
+	for term in $@
+	do
+	   if [[ $search != "" ]] ;then	
+	    search="$search+$term"
+	   else 	
+	    search=$term
+           fi
+	done
+
+	local url="http://www.google.com/search?q=$search"
+	#echo $url
+	open "$url"
+
+}
+function google_unimport()
+{
+
+ unset google_imported
+ unset google_unimport
+}
+
+
+google_ping()
+{
+  ping -c 4 -t 15  www.google.co.in
+
+}
+
+
+google_mail()
+{
+if network_isreachable; then
+open -a 'Google Chrome' https://mail.google.com/mail/
+else
+echo "NO network."	 
+fi	
+
+}
+
+
+google_watchdog()
+{
+ while true;do
+  google_ping >/dev/null
+  if [ $? -eq 0 ] ;then
+   #ok
+   echo -en '\a'
+   sleep 40
+  else 
+   echo -e "100% pocket loss loss \a\a\a\a\a" 
+  fi
+  done
+}
