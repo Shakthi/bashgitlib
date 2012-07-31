@@ -1,0 +1,21 @@
+#!/bin/bash
+#bgit
+#description -- This snippest  Interpace for underlaining bgit never made this auto
+
+bgit_imported=1
+
+bgit()
+{
+  $BGIT_BASEDIR/bbin/bgit $*
+} 
+
+
+function bgit_unimport()
+{
+
+ unset bgit_imported
+ unset bgit
+ unset bgit_unimport
+}
+
+
