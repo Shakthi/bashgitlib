@@ -19,8 +19,10 @@ cdlast()
    return	
   elif [ x$1 == x ];then
    lastcd=$(cat ~/.bash_cdhistory | tail -1)
-  else
+  else if echo $1| grep -E ^[0-9]+$ -q
    lastcd=$(head -n$1 ~/.bash_cdhistory | tail -1)
+  else
+   lastcd=$(grep -E /$1[^/]*/$ ~/.bash_cdhistory | tail -1)
   fi 
   
   if [ "x$lastcd" == 'x~/' ] ;then
