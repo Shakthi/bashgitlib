@@ -6,7 +6,6 @@ cdlast_imported=1
 
 cdlast()
 {
-set -x
   if [ x$1 == x'-l' ];then
     touch ~/.bash_cdhistory
     local lastcd=$(cat ~/.bash_cdhistory|uniq|tail -n 1)
@@ -31,7 +30,6 @@ set -x
   else
    cd "$lastcd"
   fi
-  set +x
 }
 
 cd ()
