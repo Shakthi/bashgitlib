@@ -1,0 +1,127 @@
+#!/bin/bash
+#git
+#description -- This snippest  bla bla
+#import othersnippet
+git_imported=1
+source  /usr/local/git/contrib/completion/git-completion.bash
+ 
+#GIT_ALTERNATE_OBJECT_DIRECTORIES=/Volumes/Development/Common/objects
+#alias gitgui="'/usr/local/git/share/git-gui/lib/Git Gui.app/Contents/MacOS/Wish' '/usr/local/git/libexec/git-core/git-gui'"
+alias gitgui='open -a GitX .'
+
+function git_unimport()
+{
+ unset GIT_ALTERNATE_OBJECT_DIRECTORIES
+ unalias gitgui
+ unset git_imported
+ unset git_unimport
+}
+
+
+function git_switch()
+{
+newbranch=no
+untracked=yes
+dontsave=no
+
+while getopts lnus o
+do	case "$o" in
+	#d)	seplist="$OPTARG";;
+	n)	newbranch=yes;;
+	u)	untracked=no;;
+	s)	dontsave=yes;;
+        l) 	git stash list |grep ": Switch To"
+	   	exit 0;;	
+	[?])	printf >&2 "Usage: $0 [-n] [-u] [-s] branch \n"
+		exit 1;;
+	esac
+done
+shift `expr $OPTIND - 1`
+
+
+
+
+currentbranch=$(git branch 2> /dev/null | grep \\*|sed s/\*\ //)
+
+anotherbranch=$1
+
+if [ x$dontsave == xno  ];then
+ if [ x$untracked == xyes  ];then
+  git stash save -u "Switch To:$anotherbranch"
+ else
+  git stash save  "Switch To:$anotherbranch"
+ fi
+fi
+
+
+
+if [ x$newbranch == xyes  ];then
+ git checkout -b $anotherbranch
+else
+ git checkout  $anotherbranch
+fi
+
+stashline=$(git stash list |grep "On $anotherbranch: Switch To"|head -n 1)
+
+switchstash=$(expr "$stashline" : '\(stash@{[0-9]*}\)' )
+
+if [ ! -z $switchstash ] ;then 
+git stash pop $switchstash
+else
+echo "$anotherbranch was clean"
+fi
+
+
+
+
+}
+
+
+gitpackup()
+{
+
+   if [ ! -d ./.git ];then
+    return
+   fi
+   
+   local bundlename=$(basename $(pwd) )
+   local gitparent=../
+
+   git bundle create $bundlename".gitbundle" --all
+   tar -cvf $bundlename".gitbundle.gitar" $bundlename".gitbundle"  .git/config
+   mv $bundlename".gitbundle.gitar" $gitparent
+   rm $bundlename".gitbundle"
+   cd ../
+}
+
+
+gitunpackup()
+{
+
+   if echo $1|grep -q .gitbundle.gitar ;then
+    :
+   else
+    return 1
+   fi
+   
+   local bundlename=$(echo $1|sed s%\\.gitbundle\\.gitar%% )
+   local gitparent=./
+  
+   local tempdir=$bundlename.tmp
+   mkdir $tempdir 
+   pushd $tempdir
+   tar -xvf ../$1
+   popd
+
+   git clone $tempdir/$bundlename.gitbundle $bundlename
+
+   cp $tempdir/.git/config $bundlename/.git
+   rm -r $tempdir   
+   
+
+   #git bundle create $bundlename".gitbundle" --all
+   #tar -cvf $bundlename".gitbundle.gitar" $bundlename".gitbundle"  .git/config
+   #mv $bundlename".gitbundle.gitar" $gitparent
+}
+
+
