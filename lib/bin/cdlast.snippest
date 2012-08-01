@@ -1,0 +1,67 @@
+#!/bin/bash
+#cdlast
+#description -- This snippest remember the last directory you are in.
+
+cdlast_imported=1
+
+cdlast()
+{
+  if [ x$1 == x'-l' ];then
+    touch ~/.bash_cdhistory
+    local lastcd=$(cat ~/.bash_cdhistory|uniq|tail -n 1)
+    cat ~/.bash_cdhistory|uniq|tail -n 100 > ~/.bash_cdhistory.tmp
+    mv ~/.bash_cdhistory.tmp  ~/.bash_cdhistory  
+    cat ~/.bash_cdhistory|nl
+    return
+  elif [ x$1 == x'-c' ];then
+   rm ~/.bash_cdhistory
+   touch ~/.bash_cdhistory
+   return	
+  elif [ x$1 == x ];then
+   lastcd=$(cat ~/.bash_cdhistory | tail -1)
+  else
+   lastcd=$(head -n$1 ~/.bash_cdhistory | tail -1)
+  fi 
+  
+  if [ "x$lastcd" == 'x~/' ] ;then
+   builtin cd ~
+  else
+   cd "$lastcd"
+  fi
+  
+}
+
+cd ()
+{
+  case $- in
+          *i*)
+              
+	      if test ! -z "$1"|| test "x$1" != "x-"  ;then
+                 if echo "$1"|grep  '^/' >/dev/null  ;then
+		   echo $1>>~/.bash_cdhistory
+ 		 else
+                   echo $(pwd)/"$1">>~/.bash_cdhistory
+ 		 fi
+		 builtin cd "$1"
+              else
+                #echo '~/'>>~/.bash_cdhistory 
+                builtin cd 
+              fi;;
+
+          *)      builtin cd "$1"; 
+                  ;;
+          esac
+
+
+}
+
+
+
+function cdlast_unimport()
+{
+ unset cd;
+ unset cdlast;
+ unset cdlast_unimport
+ unset cdlast_imported
+
+}
