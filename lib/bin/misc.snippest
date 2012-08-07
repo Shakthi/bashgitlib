@@ -1,0 +1,16 @@
+#!/bin/bash
+#misc
+#description -- This snippest  bla bla
+#import othersnippet
+
+misc_imported=1
+
+alias ls='ls -G'
+function misc_unimport()
+{
+
+ unset misc_imported
+ unset misc_unimport
+}
+
+
