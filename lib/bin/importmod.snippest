@@ -15,7 +15,7 @@ importmod_edit()
 	vi $fullname && source $fullname;
 	$BGIT_BASEDIR/bbin/bgit add $fullname
     else
-	$BGIT_BASEDIR/bbin/bgit comit       
+	$BGIT_BASEDIR/bbin/bgit commit       
     fi
 
 }
