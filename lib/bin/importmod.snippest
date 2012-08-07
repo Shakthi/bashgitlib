@@ -11,7 +11,11 @@ importmod_edit()
     local fullname=$import_path/$name.snippest
 
     if [ -f $fullname ] ;then
-        $BGIT_BASEDIR/bbin/backedit $fullname && source $fullname
+
+	vi $fullname && source $fullname;
+	$BGIT_BASEDIR/bbin/bgit add $fullname
+    else
+	$BGIT_BASEDIR/bbin/bgit comit       
     fi
 
 }
