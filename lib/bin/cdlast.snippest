@@ -25,9 +25,9 @@ cdlast()
    lastcd=$(grep -iE /$1[^/]*/$ ~/.bash_cdhistory | tail -1)
   fi 
   
-  if [ "x$lastcd" == 'x~/' ] ;then
+  if [ "x$lastcd" == 'x~/'] ;then
    builtin cd ~
-  else
+  else 
    cd "$lastcd"
   fi
 }
@@ -36,6 +36,7 @@ cd ()
 {
   case $- in
           *i*)
+               set -x
               
 	      if test ! -z "$1"|| test "x$1" != "x-"  ;then
                  if echo "$1"|grep  '^/' >/dev/null  ;then
@@ -46,7 +47,7 @@ cd ()
 		 builtin cd "$1"
               else
                 #echo '~/'>>~/.bash_cdhistory 
-                builtin cd 
+                builtin cd ~/
               fi;;
 
           *)      builtin cd "$1"; 

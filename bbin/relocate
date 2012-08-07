@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -x
+selfdir=$(cd 1>/dev/null $(dirname $0);pwd)
+$selfdir/resetroot
+$selfdir/setupbashrc
