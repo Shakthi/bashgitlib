@@ -1,0 +1,15 @@
+#!/bin/bash
+set -x
+selfdir=$(dirname $0)
+cd $selfdir/../
+mkdir packages/
+git config core.worktree ../../
+mv .git packages/gitdb
+./bbin/resetroot
+./bbin/bgit update-index --assume-unchanged ./config/gitdir
+
+echo packages/gitdb >>packages/gitdb/info/exclude
+echo .DS_Store >>packages/gitdb/info/exclude
+
+./bbin/bgit repack
+./bbin/bgit status
