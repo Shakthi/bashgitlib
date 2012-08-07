@@ -36,7 +36,6 @@ cd ()
 {
   case $- in
           *i*)
-               set -x
               
 	      if test ! -z "$1"|| test "x$1" != "x-"  ;then
                  if echo "$1"|grep  '^/' >/dev/null  ;then
