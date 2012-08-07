@@ -14,16 +14,16 @@ filename=$(basename $0)
 basedir=$(cd 1>/dev/null $(dirname $0)/../;pwd)
 
 
+if  [ ! -f ~/.bash_profile ] ; then
+    echo -e "\n\n">~/.bash_profile
+    chmod u+x ~/.bash_profile
+else if  test $(cat ~/.bash_profile |wc -l ) == 1 ;then
+    echo -e "\n\n">>~/.bash_profile
+    fi
+fi
+
 
 if  ! grep %%BGIT_IMPORT_SETUP%% ~/.bash_profile -q ; then
-
-
-
-tempfile=$(mktemp /tmp/setupbash.XXX)
-awk -v n=2 -v s="export BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
-
-cat  $tempfile >~/.bash_profile
-rm $tempfile
 
 
 
@@ -32,6 +32,14 @@ awk -v n=2 -v s=". \$BGIT_BASEDIR/bbin/setupbashrc   #%%BGIT_IMPORT_SETUP%%" 'NR
 
 cat  $tempfile >~/.bash_profile
 rm $tempfile
+
+
+tempfile=$(mktemp /tmp/setupbash.XXX)
+awk -v n=2 -v s="export BGIT_BASEDIR=$basedir   #%%BGIT_IMPORTDIR_SETUP%%" 'NR == n {print s} {print}' ~/.bash_profile >$tempfile
+
+cat  $tempfile >~/.bash_profile
+rm $tempfile
+
 
 
 
