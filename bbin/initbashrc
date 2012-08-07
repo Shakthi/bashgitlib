@@ -1,0 +1,10 @@
+#!/bin/bash
+set -x
+
+if  [ x$BGIT_BASEDIR == x ];then
+
+   selfdir=$(cd 1>/dev/null $(dirname $0);pwd)
+   $selfdir/setupbashrc
+
+fi
+

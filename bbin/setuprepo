@@ -13,3 +13,5 @@ echo .DS_Store >>packages/gitdb/info/exclude
 
 ./bbin/bgit repack
 ./bbin/bgit status
+./bbin/initbashrc
+
