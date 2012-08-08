@@ -6,7 +6,9 @@ bgit_imported=1
 
 bgit()
 {
+  pushd $BGIT_BASEDIR >/dev/null
   $BGIT_BASEDIR/bbin/bgit $*
+  popd >/dev/null
 } 
 
 
