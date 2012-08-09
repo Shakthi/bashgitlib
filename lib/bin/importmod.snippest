@@ -29,7 +29,7 @@ importmod_add()
   vi "+r $tempfile"  $fullname
   if [ -f $fullname ];then
     $BGIT_BASEDIR/bbin/bgit add $fullname
-    $BGIT_BASEDIR/bbin/bgit commit -m "New-snippet-added" $fullname; 
+    $BGIT_BASEDIR/bbin/bgit commit -m "New snippet added:$name" $fullname; 
     source $fullname
   fi
   rm $tempfile

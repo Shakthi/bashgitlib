@@ -8,4 +8,4 @@ if [[ $# == 0 ]]
 fi
 
 
-exec git --git-dir=$(cat $selfdir/../config/gitdir ) $*
+exec git --git-dir=$(cat $selfdir/../config/gitdir ) "$@"
