@@ -1,0 +1,41 @@
+#!/bin/bash
+#name:backup
+#description -- Creates backup copy of imprtant file and then lets you edit
+
+##version
+backup_imported=1 
+
+
+
+
+function backup_edit() 
+{   
+    local fullname=$1
+    local tempfile=`mktemp -q /tmp/import.XXXXXX`
+    cat $fullname >$tempfile
+    vi $fullname
+	local newestfileid=$(cat $fullname|md5)
+
+    if cmp -s $fullname $tempfile ;
+    then 
+      rm $tempfile
+      return 1
+    else
+      local newnameid=$(cat $tempfile|md5)
+      local newname=$BGIT_BASEDIR/lib/vardata/backup/$newnameid
+	  	
+      mv $tempfile $newname
+      echo "##########BACKUP_DATA_BEGIN##########">>$newname
+      echo "#Filepath:$fullname">>$newname
+      local datenow=$(date "+%Y-%m-%d:%H:%M:%S" )
+      echo "#Date:$datenow">>$newname
+      echo "#selfname:$newnameid">>$newname
+      echo "#newestfileid:$newestfileid">>$newname
+      echo "#backupsnippetdated:2012-08-10:23:53:00">>$newname
+      echo "##########BACKUP_DATA_END##########">>$newname
+      return 0
+    fi  
+
+}
+
+
