@@ -9,11 +9,13 @@ backup_imported=1
 
 
 function backup_edit() 
-{   
-    local fullname=$1
+{  
+    local editor=$1 
+    local fullname=$2
+    test -r $fullname ||return 1
     local tempfile=`mktemp -q /tmp/import.XXXXXX`
     cat $fullname >$tempfile
-    vi $fullname
+    $editor $fullname
 	local newestfileid=$(cat $fullname|md5)
 
     if cmp -s $fullname $tempfile ;
@@ -35,6 +37,13 @@ function backup_edit()
       echo "##########BACKUP_DATA_END##########">>$newname
       return 0
     fi  
+
+}
+
+
+backup_vi()
+{
+  backup_edit vi $1 
 
 }
 
