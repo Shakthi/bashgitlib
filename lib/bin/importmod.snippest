@@ -28,6 +28,8 @@ importmod_add()
   cat $import_datapath/snippettemplate | sed s/snippetname/$name/ > $tempfile 
   vi "+r $tempfile"  $fullname
   if [ -f $fullname ];then
+    cat $fullname |grep -Ev '^#description -- This snippest  bla bla$' |grep -Ev '^#import othersnippet$'> $tempfile
+    cat $tempfile >$fullname	
     $BGIT_BASEDIR/bbin/bgit add $fullname
     $BGIT_BASEDIR/bbin/bgit commit -m "New snippet added:$name" $fullname; 
     source $fullname
