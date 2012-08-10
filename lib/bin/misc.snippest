@@ -6,11 +6,42 @@
 misc_imported=1
 
 alias ls='ls -G'
-function misc_unimport()
-{
 
- unset misc_imported
- unset misc_unimport
+
+grf()
+{
+  find .  2>/dev/null |grep -i $1
 }
+
+gr()
+{
+  grep $1 -iIrn --color=auto ./ 2>/dev/null 
+}
+psgrep()
+{
+ ps -e|grep $1|grep -v grep
+}
+
+alias hissearch='history |grep'
+alias suvi='sudo ~/bin/beackupedit.sh'
+alias ls='ls -G'
+
+
+function renameRecursive() ## $1 $2 ##from to
+{
+local OLDIFS=$IFS
+ IFS='
+'
+ for i in `find . |grep $1 `;
+  do
+     mv "$i" $(echo "$i"|sed s!"$1"!"$2"!  ) ;
+  done
+
+IFS=$OLDIFS
+}
+
+
+
+alias ynetslow='sudo lsof -i |grep -e "->" '
 
 
