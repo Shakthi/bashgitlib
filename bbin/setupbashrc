@@ -1,12 +1,15 @@
 #!/bin/bash
-if [[ $0 == "-bash" ]];
+if [ $0 == "-bash" -o $0 == "bash" ];
 then
 . $BGIT_BASEDIR/lib/bin/import.bash
 export PATH=$PATH:/opt/local/bin/:$BGIT_BASEDIR/bin;
 
 return 0
 fi
+
+echo "\$0:$0"
 set -x
+
 
 selfdir=$(cd 1>/dev/null $(dirname $0);pwd)
 
