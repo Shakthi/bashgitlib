@@ -1,0 +1,16 @@
+#!/bin/bash
+#glut
+
+##version
+glut_imported=1 
+
+
+GLUT_FRAMEWORK='-framework GLUT -framework OpenGL -framework Cocoa'
+GLUT_INCLUDE="-I $HOME/localroot/include/"
+
+
+glutcc()
+{
+  gcc $GLUT_FRAMEWORK $GLUT_INCLUDE $*
+}
+
