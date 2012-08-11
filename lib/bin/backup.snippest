@@ -7,6 +7,43 @@ backup_imported=1
 
 
 
+function backup_sudoedit() 
+{  
+    local editor=$1 
+    local fullname=$2
+    sudo test -r $fullname ||return 1
+    local tempfile=`sudo mktemp -q /tmp/import.XXXXXX`
+    sudo bash -c "cat $fullname >$tempfile"
+    sudo $editor $fullname
+	local newestfileid=$(sudo cat $fullname|md5)
+
+    if sudo cmp -s $fullname $tempfile ;
+    then 
+      sudo rm $tempfile
+      return 1
+    else
+      local newnameid=$(sudo cat $tempfile|md5)
+      local newname=$BGIT_BASEDIR/lib/vardata/backup/$newnameid
+	  	
+      local tempfile2=`sudo mktemp -q /tmp/import.XXXXXX`
+      local datenow=$(date "+%Y-%m-%d:%H:%M:%S" )
+       sudo bash -c "cat >$tempfile2 <<EOF
+##########BACKUP_DATA_BEGIN##########
+#Filepath:$fullname
+#Date:$datenow
+#selfname:$newnameid
+#newestfileid:$newestfileid
+#backupsnippetdated:2012-08-10:23:53:00
+##########BACKUP_DATA_END##########
+EOF"
+      sudo mktemp $newname   
+      sudo bash  -c "cat $tempfile $tempfile2 > $newname"
+      return 0
+    fi  
+
+}
+
+
 
 function backup_edit() 
 {  
@@ -47,4 +84,10 @@ backup_vi()
 
 }
 
+
+backup_sudovi()
+{
+  backup_sudoedit vi $1 
+
+}
 
