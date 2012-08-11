@@ -23,7 +23,6 @@ psgrep()
 }
 
 alias hissearch='history |grep'
-alias suvi='sudo ~/bin/beackupedit.sh'
 alias ls='ls -G'
 
 
@@ -40,8 +39,17 @@ local OLDIFS=$IFS
 IFS=$OLDIFS
 }
 
+suvi()
+{
+  import backup;
+  backup_sudovi $1
 
+}
 
-alias ynetslow='sudo lsof -i |grep -e "->" '
+ 
 
+ynetslow()
+{ 
+ (sudo /usr/sbin/lsof -i )|grep -e "->" |tr -s ' '|cut -d ' ' -f 1,3,9 
+}
 
