@@ -1,0 +1,30 @@
+#!/bin/bash
+#name:dos2unix
+
+##version
+
+dos2unix_imported=1
+alias shiftorexit='shift ; test $# -lt 1 && return'
+
+function dos2unix_cat()
+{
+  tr -d \\r
+}
+
+function generic_convert()
+{
+  tempfile=$(mktemp /tmp/dos2unix.XXXXXXXX) 	
+  cat $2|eval $1 >$tempfile
+  cat $tempfile>$2
+  rm $tempfile
+
+}
+
+function dos2unix_convert()
+{
+ generic_convert dos2unix_cat $1
+ shiftorexit
+  dos2unix_convert $*
+}
+
+
