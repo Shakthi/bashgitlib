@@ -1,0 +1,13 @@
+#!/bin/bash
+#name:completion
+#description -- Imports completion from multiple places
+
+##version
+completion_imported=1 
+
+completion_load_macport
+{
+
+  [ -f /opt/local/etc/bash_completion ] && . /opt/local/etc/bash_completion
+
+}
