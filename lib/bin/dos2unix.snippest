@@ -11,6 +11,11 @@ function dos2unix_cat()
   tr -d \\r
 }
 
+function dos2unix_oldmac2unixcat()
+{
+  tr  \\r \\n
+}
+
 function generic_convert()
 {
   tempfile=$(mktemp /tmp/dos2unix.XXXXXXXX) 	
@@ -23,6 +28,13 @@ function generic_convert()
 function dos2unix_convert()
 {
  generic_convert dos2unix_cat $1
+ shiftorexit
+  dos2unix_convert $*
+}
+
+function oldmac2unix_convert()
+{
+ generic_convert dos2unix_oldmac2unixcat $1
  shiftorexit
   dos2unix_convert $*
 }
