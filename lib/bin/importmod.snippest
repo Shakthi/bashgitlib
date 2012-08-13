@@ -4,7 +4,10 @@
 #import othersnippet
 
 importmod_imported=1
-complete -W "$(import_list)"  importmod_edit
+
+
+
+complete -F _import_complete  importmod_edit
 importmod_edit()
 {
     local name=$1

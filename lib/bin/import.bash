@@ -54,17 +54,37 @@ function import_list()
 }
 
 
-function importtobe_list()
+function _importtobe_complete()
 {
+    local  completter=();
     for i in $(ls $import_path|grep snippest|sed s+.snippest$++);
      do
         local iimported=$(eval echo \$$i"_imported")
         if test -z $iimported ;then
-            echo $i 
+            completter=( "${completter[@]}" "$i" )
         fi        
      done
-    
+
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=( $(compgen  -W "$(echo ${completter[@]} )" -- $cur) )
+    return 0;   
 }
+
+
+function _import_complete()
+{
+    local  completter=();
+    for i in $(ls $import_path|grep snippest|sed s+.snippest$++);
+    do
+        completter=( "${completter[@]}" "$i" )
+    done
+
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=( $(compgen  -W "$(echo ${completter[@]} )" -- $cur) )
+    return 0;   
+}
+
+
 
 
 
@@ -87,6 +107,6 @@ for i in $(cat $import_datapath/autoimport);do
 done
 fi
 
-complete -W "$(importtobe_list)"  import
+complete -F _importtobe_complete  import
 
 
