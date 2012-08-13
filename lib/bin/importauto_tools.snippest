@@ -1,0 +1,46 @@
+#!/bin/bash
+#name:importauto_tools
+
+##version
+importauto_tools_imported=1 
+
+function import_auto()
+{
+ 
+  local name=$1
+  local fullname=$import_path/$name.snippest
+  
+  if [ -f $fullname ];then
+   local confpath=$import_datapath/autoimport
+   echo $name>>$confpath
+  fi
+}
+
+function import_auto_list()
+{
+   local confpath=$import_datapath/autoimport
+   cat $confpath
+}
+
+
+function import_auto_create()
+{
+  local name=$1
+  import_create $name
+  import_auto $name
+}
+
+function import_unauto()
+{
+  local name=$1
+  local fullname=$import_path/$name.snippest
+  
+  if [ -f $fullname ];then
+   local confpath=$import_datapath/autoimport
+   local tempfile=`mktemp -q /tmp/import.XXXXXX`
+   cat $confpath>$tempfile
+   cat $tempfile |grep -v $name >$confpath  
+  fi
+  rm $tempfile
+}
+
