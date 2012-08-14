@@ -1,0 +1,26 @@
+#!/bin/bash
+#name:network
+
+##version
+network_imported=1 
+
+function network_isreachable()
+{
+ netstat -rn | grep -q ^default
+} 
+
+
+function network_wait()
+{
+
+  while ! network_isreachable;
+  do
+   sleep $waittime
+   waittime=$(expr  $waittime '*' 2)
+   if [[ $waittime -gt 500 ]];then
+        waittime=500
+   fi
+  done
+}
+
+
