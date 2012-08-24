@@ -1,0 +1,18 @@
+#!/bin/bash
+#name:echolor
+#description -- color suppored echo
+
+##version
+echolor_imported=1 
+
+echolor()
+{
+  local echolor_red=$(tput setaf 1)
+  local echolor_red=$(tput setaf 2)
+  for i in $@ ; do
+   echo -ne $i |sed "s&<#red>&$echolor_red&"|sed "s&</#[a-z]+>&$echolor_red&"
+  
+  done 
+
+
+}
