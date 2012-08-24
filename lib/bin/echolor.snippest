@@ -7,12 +7,43 @@ echolor_imported=1
 
 echolor()
 {
-  local echolor_red=$(tput setaf 1)
-  local echolor_red=$(tput setaf 2)
-  for i in $@ ; do
-   echo -ne $i |sed "s&<#red>&$echolor_red&"|sed "s&</#[a-z]+>&$echolor_red&"
-  
-  done 
 
+
+
+
+
+  local echolor_red=$(tput setaf 1)
+  local echolor_green=$(tput setaf 2)
+  local echolor_yellow=$(tput setaf 2)
+  local echolor_blue=$(tput setaf 4)
+  local echolor_magenta=$(tput setaf 5)
+  local echolor_cyan=$(tput setaf 6)
+  local echolor_white=$(tput setaf 7)
+  local echolor_term=$(tput op)
+  local echolor_attroff=$(tput sgr0)
+  local echolor_bold=$(tput bold)
+  local echolor_boldoff=$(tput sgr0)
+  local echolor_so=$(tput smso)
+  local echolor_soff=$(tput rmso)
+  local echolor_ul=$(tput smul)
+  local echolor_uloff=$(tput rmul)
+  local echolor_reverse=$(tput rev)
+  local echolor_reverseoff=$(tput sgr0)
+  for i in "$*" ; do
+   echo -n $i |sed "s&<#red>&$echolor_red&"\
+   |sed "s&<#green>&$echolor_green&" \
+   |sed "s&<#yellow>&$echolor_yellow&" \
+   |sed "s&<#blue>&$echolor_blue&" \
+   |sed "s&<#cyan>&$echolor_cyan&"\
+   |sed "s&<#white>&$echolor_white&"\
+   |sed "s&</#[a-z]*>&$echolor_term&"\
+   |sed "s&<b>&$echolor_bold&" |sed "s&</b>&$echolor_boldoff&"\
+   |sed "s&<s>&$echolor_so&" |sed "s&</s>&$echolor_soff&"\
+   |sed "s&<u>&$echolor_ul&" |sed "s&</u>&$echolor_uloff&"\
+   |sed "s&<r>&$echolor_reverse&" |sed "s&</r>&$echolor_reverseoff&"
+
+  done 
+  
+  echo -n "${echolor_term}${echolor_attroff}"
 
 }
