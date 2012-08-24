@@ -1,6 +1,6 @@
 #!/bin/bash
 #name:echolor
-#description -- color suppored echo
+#description -- color supported echo
 
 ##version
 echolor_imported=1 
@@ -8,9 +8,8 @@ echolor_imported=1
 echolor()
 {
 
-
-
-
+  local chomp=yes
+  [[ $1 == -n ]] &&chomp=no&&shift 1 
 
   local echolor_red=$(tput setaf 1)
   local echolor_green=$(tput setaf 2)
@@ -29,7 +28,9 @@ echolor()
   local echolor_uloff=$(tput rmul)
   local echolor_reverse=$(tput rev)
   local echolor_reverseoff=$(tput sgr0)
-  for i in "$*" ; do
+  local once=no
+  for i in $* ; do
+   if [[ $once == yes ]];then echo -n ' ' ; fi
    echo -n $i |sed "s&<#red>&$echolor_red&"\
    |sed "s&<#green>&$echolor_green&" \
    |sed "s&<#yellow>&$echolor_yellow&" \
@@ -40,10 +41,12 @@ echolor()
    |sed "s&<b>&$echolor_bold&" |sed "s&</b>&$echolor_boldoff&"\
    |sed "s&<s>&$echolor_so&" |sed "s&</s>&$echolor_soff&"\
    |sed "s&<u>&$echolor_ul&" |sed "s&</u>&$echolor_uloff&"\
-   |sed "s&<r>&$echolor_reverse&" |sed "s&</r>&$echolor_reverseoff&"
-
+   |sed "s&<r>&$echolor_reverse&" |sed "s&</r>&$echolor_reverseoff&"\
+   | awk 'NR > 1 { print h } { h = $0 } END { ORS = ""; print h }'	
+   once=yes
   done 
   
   echo -n "${echolor_term}${echolor_attroff}"
 
+  [[ $chomp == yes ]]&&echo
 }
