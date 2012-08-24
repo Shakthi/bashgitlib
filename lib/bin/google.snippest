@@ -44,6 +44,9 @@ google_ping()
 
 google_mail()
 {
+
+import network;
+
 if network_isreachable; then
 open -a 'Google Chrome' https://mail.google.com/mail/
 else
