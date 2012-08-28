@@ -1,0 +1,14 @@
+#!/bin/bash
+#name:appcrush
+#description -- This snippest is a wrapper for rubyscript appcrush 
+
+##version
+appcrush_imported=1 
+
+
+appcrush()
+{
+ $BGIT_BASEDIR/lib/exec/appcrush $*
+}
+
+
