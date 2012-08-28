@@ -8,6 +8,13 @@ appcrush_imported=1
 
 appcrush()
 {
+ import echolor;
+
+ if [[ $# == 0 ]];then 
+  echolor "Usage:<b>appcrush   path/to/app/appname.ipa"
+  return 1
+ fi 
+  
  $BGIT_BASEDIR/lib/exec/appcrush $*
 }
 
