@@ -1,0 +1,16 @@
+#!/bin/bash
+#name:gitreclone
+
+##version
+gitreclone_imported=1 
+
+gitreclone()
+{
+ set -x
+   trap  'echo ignored ' INT
+
+   git clone "$@"
+
+
+}
+
