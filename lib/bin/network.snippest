@@ -6,7 +6,7 @@ network_imported=1
 
 function network_isreachable()
 {
- netstat -rn | grep -q ^default
+ netstat -rn | grep -q ^default |grep -qv link
 } 
 
 
