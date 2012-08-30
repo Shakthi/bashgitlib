@@ -15,7 +15,7 @@ appcrush()
   return 1
  fi 
   
- $BGIT_BASEDIR/lib/exec/appcrush $*
+ $BGIT_BASEDIR/lib/exec/appcrush "$*"
 }
 
 
