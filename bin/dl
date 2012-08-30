@@ -1,5 +1,4 @@
 #!/bin/bash
-source  $BGIT_BASEDIR/lib/bin/import.bash
 import debuglog
 
 debuglog_conditionally

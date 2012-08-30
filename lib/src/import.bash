@@ -5,7 +5,7 @@ test  -z $import_imported ||return 0
 
 
 import_imported=1
-export import_path=$BGIT_BASEDIR/lib/bin
+export import_path=$BGIT_BASEDIR/lib/src
 export import_datapath=$BGIT_BASEDIR/config/importdata
 
 function import()
