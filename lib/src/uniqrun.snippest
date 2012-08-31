@@ -1,0 +1,17 @@
+#!/bin/bash
+#name:uniqrun
+
+##version
+uniqrun_imported=1 
+
+uniqrun_pidfile()
+{
+  $BGIT_BASEDIR/lib/vardata/$(basename $0).pid 
+ 
+}
+
+
+uniqrun_pid()
+{
+  echo $$
+}
