@@ -6,8 +6,7 @@ uniqrun_imported=1
 
 uniqrun_pidfile()
 {
-  $BGIT_BASEDIR/lib/vardata/$(basename $0).pid 
- 
+  echo  $BGIT_BASEDIR/lib/vardata/$(basename $0).pid 
 }
 
 
@@ -15,3 +14,34 @@ uniqrun_pid()
 {
   echo $$
 }
+
+
+uniqrun_isrunning()
+{
+  test -e $(uniqrun_pidfile)
+}
+
+
+uniqrun_runforce()
+{
+  uniqrun_pid >$(uniqrun_pidfile)
+}
+
+
+uniqrun_kill()
+{
+  kill $(cat $(uniqrun_pidfile))
+}
+
+
+uniqrun_exit()
+{
+  rm $(uniqrun_pidfile)
+}
+
+uniqrun_run()
+{
+  uniqrun_isrunning && return 1
+  uniqrun_runforce
+}
+

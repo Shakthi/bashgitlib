@@ -50,6 +50,6 @@ suvi()
 
 ynetslow()
 { 
- (sudo /usr/sbin/lsof -i )|grep -e "->" |tr -s ' '|cut -d ' ' -f 1,3,9 
+ (sudo /usr/sbin/lsof -i -n )|grep -e "->" |tr -s ' '|cut -d ' ' -f 1,3,9 
 }
 
