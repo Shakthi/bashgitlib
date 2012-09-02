@@ -24,7 +24,7 @@ uniqrun_isrunning()
   if  ps -p $pid|grep -qE ^[0-9] 
   then
      local line=$(ps -p $pid|grep -E ^[0-9]|tr -s ' ' |cut -f 4 -d ' ')
-     if [[ $line == bash ]];then
+     if [ x$line == xbash -o x$line == xsh ];then
       line=$(ps -p $pid|grep -E ^[0-9]|tr -s ' ' |cut -f 5 -d ' ')
      fi
      if [ x$line == x$(basename $0) ];then
