@@ -6,7 +6,13 @@ network_imported=1
 
 function network_isreachable()
 {
- netstat -rn | grep -q ^default |grep -qv link
+ netstat -rn | grep -v link|grep -q ^default
+} 
+
+function network_isppp()
+{ 
+  network_isreachable || return 1
+  netstat -rn | grep  ^default|grep -q ppp
 } 
 
 

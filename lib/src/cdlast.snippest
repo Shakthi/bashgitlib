@@ -9,7 +9,7 @@ cdlast()
   if [ x$1 == x'-l' ];then
     touch ~/.bash_cdhistory
     local lastcd=$(cat ~/.bash_cdhistory|uniq|tail -n 1)
-    cat ~/.bash_cdhistory|uniq|tail -n 100 > ~/.bash_cdhistory.tmp
+    cat ~/.bash_cdhistory|uniq|tail -n 1000 > ~/.bash_cdhistory.tmp
     mv ~/.bash_cdhistory.tmp  ~/.bash_cdhistory  
     cat ~/.bash_cdhistory|nl
     return

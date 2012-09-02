@@ -18,7 +18,22 @@ uniqrun_pid()
 
 uniqrun_isrunning()
 {
-  test -e $(uniqrun_pidfile)
+  test -e $(uniqrun_pidfile) || return 1
+  #check for stale file
+  local pid=$(cat $(uniqrun_pidfile))
+  if  ps -p $pid|grep -qE ^[0-9] 
+  then
+     local line=$(ps -p $pid|grep -E ^[0-9]|tr -s ' ' |cut -f 4 -d ' ')
+     if [[ $line == bash ]];then
+      line=$(ps -p $pid|grep -E ^[0-9]|tr -s ' ' |cut -f 5 -d ' ')
+     fi
+     if [ x$line == x$(basename $0) ];then
+     return 0
+     fi
+  fi
+  
+  return 1 
+
 }
 
 
@@ -36,7 +51,7 @@ uniqrun_kill()
 
 uniqrun_exit()
 {
-  rm $(uniqrun_pidfile)
+ rm $(uniqrun_pidfile)
 }
 
 uniqrun_run()
