@@ -21,12 +21,14 @@ uniqrun_isrunning()
   test -e $(uniqrun_pidfile) || return 1
   #check for stale file
   local pid=$(cat $(uniqrun_pidfile))
-  if  ps -p $pid|grep -qE ^[0-9] 
+  local reforps='^[ ]*[0-9]'; 
+  if  ps -p $pid|grep -qE "$reforps" 
   then
-     local line=$(ps -p $pid|grep -E ^[0-9]|tr -s ' ' |cut -f 4 -d ' ')
-     if [ x$line == xbash -o x$line == xsh ];then
-      line=$(ps -p $pid|grep -E ^[0-9]|tr -s ' ' |cut -f 5 -d ' ')
+     local line=$(ps -p $pid|grep -E "$reforps" |tr -s ' ' |cut -f 5 -d ' ')
+     if [ x$line == xbash -o x$line == xsh -o x$line == x/bin/bash -o x$line == x/bin/sh ];then
+      line=$(ps -p $pid|grep -E "$reforps"|tr -s ' ' |cut -f 6 -d ' ')
      fi
+     line=$(basename $line) 
      if [ x$line == x$(basename $0) ];then
      return 0
      fi
