@@ -107,6 +107,9 @@ for i in $(cat $import_datapath/autoimport);do
 done
 fi
 
+
+nohup $BGIT_BASEDIR/lib/exec/firstrun.bash >/dev/null &
+
 complete -F _importtobe_complete  import
 
 
