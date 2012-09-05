@@ -10,12 +10,9 @@ if [ -f  $import_datapath/firstrun ];then
 for i in $(cat $import_datapath/firstrun);
 do
 (
-    PATH=$BGIT_BASEDIR/bin:$BGIT_BASEDIR/lib/exec:$PATH;
+    
     launcher.bash $i &
 )
 done
 fi
-
-sleep 10000000
-
 

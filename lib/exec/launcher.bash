@@ -5,8 +5,11 @@ if [ $# -ne  0 ];then
 
  if [ ! -p $BGIT_BASEDIR/lib/vardata/control ];
  then
-  nohup launcher.bash </dev/null &
-  sleep 2
+  sleep 1  
+     if [ ! -p $BGIT_BASEDIR/lib/vardata/control ];then
+    nohup launcher.bash </dev/null &
+    sleep 1
+     fi
  fi  
   echo  "$@"  >$BGIT_BASEDIR/lib/vardata/control
   exit 0
@@ -18,8 +21,11 @@ trap ' uniqrun_exit;rm $BGIT_BASEDIR/lib/vardata/control;kill 0' EXIT
 cd $BGIT_BASEDIR/
 echo $PATH
 
+
 controlfile=$BGIT_BASEDIR/lib/vardata/control
 test -p $controlfile||mkfifo $controlfile
+nohup launcher.bash firstrun.bash </dev/null &
+
 
 while true ;
 do
