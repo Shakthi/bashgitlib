@@ -3,7 +3,26 @@
 #description -- This snippest  bla bla
 #import othersnippet
 
+
 google_imported=1
+url_encode()
+{
+ local string="${1}"
+  local strlen=${#string}
+  local encoded=""
+
+  for (( pos=0 ; pos<strlen ; pos++ )); do
+     c=${string:$pos:1}
+     case "$c" in
+        [-_.~a-zA-Z0-9] ) o="${c}" ;;
+        * )               printf -v o '%%%02x' "'$c"
+     esac
+     encoded+="${o}"
+  done
+  echo "${encoded}"    # You can either set a return variable (FASTER) 
+#  REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
+ #http://stackoverflow.com/questions/296536/urlencode-from-a-bash-script
+}
 google_searh()
 {
        local search=
@@ -15,6 +34,7 @@ google_searh()
 	
 	for term in $@
 	do
+           term=$(url_encode $term)
 	   if [[ $search != "" ]] ;then	
 	    search="$search+$term"
 	   else 	
