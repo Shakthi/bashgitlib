@@ -1,0 +1,45 @@
+#!/bin/bash
+#name:finderShowHidden
+
+##version
+finderShowHidden_imported=1 
+
+finderShowHidden_isHidden()
+{
+  if [[ $(defaults read com.apple.Finder AppleShowAllFiles) == YES ]];then
+	return 1
+  else
+	return 0
+  fi
+
+}
+
+finderShowHidden_restart()
+{
+   osascript -e 'tell app "Finder" to quit'
+   sleep 2
+   osascript -e 'tell app "Finder" to select window of desktop'
+}
+
+finderShowHidden_setshow()
+{
+ defaults write com.apple.Finder AppleShowAllFiles YES
+}
+
+finderShowHidden_sethide()
+{
+ defaults write com.apple.Finder AppleShowAllFiles NO
+}
+
+finderShowHidden_switch()
+{
+  if finderShowHidden_isHidden ;then
+   finderShowHidden_setshow
+  else
+   finderShowHidden_sethide
+  fi
+
+ finderShowHidden_restart
+
+}
+
