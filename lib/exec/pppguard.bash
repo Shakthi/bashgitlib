@@ -4,8 +4,8 @@ import network
 import google
 import uniqrun
 set -x
-exec 2>$BGIT_BASEDIR/lib/vardata/run/pppguard
-
+exec 2>$BGIT_BASEDIR/lib/vardata/log/pppguard.log
+uniqrun_global=yes
 uniqrun_run ||exit
 
 trap uniqrun_exit EXIT

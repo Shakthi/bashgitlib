@@ -7,7 +7,7 @@ uniqrun_imported=1
 uniqrun_pidfile()
 {
 
-  local basepath=$BGIT_BASEDIR/lib/vardata/
+  local basepath=$BGIT_BASEDIR/lib/vardata/run
   if [[ $uniqrun_global == yes ]];then
      basepath=/var/tmp/
   fi 
