@@ -2,6 +2,7 @@
 #name:logrotate
 
 ##version
+#source:http://stackoverflow.com/questions/1759448/why-doesnt-tail-work-to-truncate-log-files
 logrotate_imported=1 
 logrotate_rotate()
 {
