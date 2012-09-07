@@ -106,7 +106,7 @@ for i in $(cat $import_datapath/autoimport);do
  import $i 
 done
 fi
-PATH=$BGIT_BASEDIR/bin:$BGIT_BASEDIR/lib/exec:$PATH nohup launcher.bash >/dev/null &
+PATH=$BGIT_BASEDIR/bin:$BGIT_BASEDIR/lib/exec:$PATH launcherlauncher.bash 
 
 
 complete -F _importtobe_complete  import
