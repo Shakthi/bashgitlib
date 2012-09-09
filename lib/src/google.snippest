@@ -25,6 +25,16 @@ url_encode()
 }
 google_searh()
 {
+(
+import network;
+
+if  network_isreachable;then
+ return 0
+else
+ echo no network
+ return 1
+fi
+)||return 1
        local search=
 	if [ $# -eq 0 ]
 		then
@@ -47,12 +57,6 @@ google_searh()
 	open "$url"
 
 }
-function google_unimport()
-{
-
- unset google_imported
- unset google_unimport
-}
 
 
 google_ping()
@@ -62,17 +66,36 @@ google_ping()
 }
 
 
+google_localping()
+{
+(
+ if test -f /Users/shakthiprasadgs/gitbin/lib/vardata/log/pppguard.log ;then
+
+  local cachedping=$(tail -n 11 /Users/shakthiprasadgs/gitbin/lib/vardata/log/pppguard.log |grep '#Date:'|sed 's+#Date:++')
+  if [ ! -z "$cachedping" ];then
+   import datediff;
+   local diffindate=$(datediff_subdates "$cachedping" "$(date)") 	
+    if [ $diffindate -le 40 ];then
+      tail -n 10 /Users/shakthiprasadgs/gitbin/lib/vardata/log/pppguard.log
+      return 0
+    fi 
+  fi
+ fi 
+  ping -c 4 -t 15  www.google.co.in
+)
+}
+
 google_mail()
 {
-
+(
 import network;
 
 if network_isreachable; then
 open -a 'Google Chrome' https://mail.google.com/mail/
 else
 echo "NO network."	 
-fi	
-
+fi
+)	
 }
 
 
