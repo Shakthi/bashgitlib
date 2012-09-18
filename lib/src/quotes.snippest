@@ -1,0 +1,11 @@
+#!/bin/bash
+#name:quotes
+
+##version
+quotes_imported=1 
+
+quotes_get()
+{
+
+
+}
