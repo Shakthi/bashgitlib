@@ -7,5 +7,15 @@ quotes_imported=1
 quotes_get()
 {
 
+  curl "http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI,$1&f=nsl1op"
+}
 
+
+quotes_search()
+{
+(
+ import google
+ local argv="$*"
+ open http://finance.yahoo.com/lookup?s=$(url_encode "$argv")
+) 
 }

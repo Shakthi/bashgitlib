@@ -7,7 +7,7 @@
 google_imported=1
 url_encode()
 {
- local string="${1}"
+ local string="$*"
   local strlen=${#string}
   local encoded=""
 
