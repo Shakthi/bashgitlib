@@ -28,6 +28,18 @@ _importmod_edit_check()
     rm $erroroutput $output
     return $status
 }
+_importmod_edit_isimported()
+{
+
+ local iimported=$(eval echo \$$1"_imported")
+ if test -z $iimported ;then
+  return 1
+  else return 0  
+ fi
+
+}
+
+
 
 importmod_edit()
 {
@@ -36,11 +48,12 @@ importmod_edit()
 
     if [ -f $fullname ] ;then
 
-
 	vi $fullname +':set filetype=sh' 
 
     if  (_importmod_edit_check  $fullname) ;then
-        source $fullname
+        if _importmod_edit_isimported $name ;then 
+         source $fullname
+        fi
         $BGIT_BASEDIR/bbin/bgit add $fullname
 
     else
