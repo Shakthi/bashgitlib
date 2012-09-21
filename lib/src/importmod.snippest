@@ -6,8 +6,29 @@
 importmod_imported=1
 
 
-
 complete -F _import_complete  importmod_edit
+_importmod_edit_check()
+{
+    local output=$(mktemp /tmp/_importmod_edit_check.XXXX)
+    local erroroutput=$(mktemp /tmp/_importmod_edit_check.XXXX)
+    local filename=$1
+    (  
+        bash -xe $filename
+
+    )>$output 2>$erroroutput
+
+    local status=$?
+
+    if  [[ $status == 0 ]];then
+        :
+    else
+        cat $erroroutput
+    fi
+
+    rm $erroroutput $output
+    return $status
+}
+
 importmod_edit()
 {
     local name=$1
@@ -15,10 +36,17 @@ importmod_edit()
 
     if [ -f $fullname ] ;then
 
-	vi $fullname && source $fullname;
-	$BGIT_BASEDIR/bbin/bgit add $fullname
+
+	vi $fullname +':set filetype=sh' 
+
+    if  (_importmod_edit_check  $fullname) ;then
+        source $fullname
+        $BGIT_BASEDIR/bbin/bgit add $fullname
+
     else
-	$BGIT_BASEDIR/bbin/bgit commit       
+        echo failed to source
+    fi
+
     fi
 
 }
