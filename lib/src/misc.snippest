@@ -41,9 +41,11 @@ IFS=$OLDIFS
 
 suvi()
 {
+
+(
   import backup;
   backup_sudovi $1
-
+)
 }
 
  

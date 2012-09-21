@@ -35,6 +35,11 @@ else
  return 1
 fi
 )||return 1
+      local application=
+      if [ x"$1" == x"safari:" -o x"$1" == x"chrome" ];then
+       
+      application="-a $(echo $1|sed s+:++)";shift 1
+      fi 
        local search=
 	if [ $# -eq 0 ]
 		then
@@ -54,7 +59,7 @@ fi
 
 	local url="http://www.google.com/search?q=$search"
 	#echo $url
-	open "$url"
+	open $application "$url"
 
 }
 
