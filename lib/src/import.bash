@@ -8,6 +8,7 @@ function import()
 {
 
 local localimportpath=$BGIT_BASEDIR/lib/src
+local errorcode=0
    for i in $*; do
      
     local iimported=$(eval echo \$$i"_imported")
@@ -29,9 +30,14 @@ local localimportpath=$BGIT_BASEDIR/lib/src
         if [ x$iimported == x"0" ] ;then
             unset $i"_imported"
         fi
+     else
+        echo "import: $name is not found" >/dev/stderr
+        errorcode=1
      fi
+    
     fi 
    done
+    return $errorcode
 } 
 
 export -f import
