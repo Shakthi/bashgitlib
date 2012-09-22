@@ -57,27 +57,68 @@ importmod_edit()
         $BGIT_BASEDIR/bbin/bgit add $fullname
 
     else
-        (import debuglog; debuglog_error failed to source)
+        (import debuglog; debuglog_error "failed to source")
     fi
-
+    else
+        (import debuglog; debuglog_error "importmod_edit:$name not found")
+	return 1
     fi
 
 }
 
 importmod_add()
 {
+(import debuglog
  local name=$1
   local fullname=$import_path/$name.snippest
+   if [ -f $fullname ];then
+     importmod_edit $name
+     return $?
+   fi 
+
   local tempfile=`mktemp -q /tmp/import.XXXXXX`
   cat $import_datapath/snippettemplate | sed s/snippetname/$name/ > $tempfile 
   vi "+r $tempfile"  $fullname
   if [ -f $fullname ];then
     cat $fullname |grep -Ev '^#description -- This snippest  bla bla$' |grep -Ev '^#import othersnippet$'> $tempfile
     cat $tempfile >$fullname	
-    $BGIT_BASEDIR/bbin/bgit add $fullname
-    $BGIT_BASEDIR/bbin/bgit commit -m "New snippet added:$name" $fullname; 
-    source $fullname
+     if  (_importmod_edit_check  $fullname) ;then 
+        bgit add $fullname
+     else
+        debuglog_error "failed to source"
+     fi
+
   fi
   rm $tempfile
-
+)
 }
+
+importmod_commit()
+{
+(
+  import bgit debuglog
+ 
+  local newfile=$( bgit status|grep -E 'new file:'|tr  -s " "|tr "\t" " "|cut -f 4 -d ' ')
+  local modified=$( bgit status|grep modified:|tr  -s " "|tr "\t" " "|cut -f 3 -d ' ')
+
+  lastcommited=$(bgit log --name-only HEAD~1..HEAD|tail -n 1)
+  for i in $modified;
+   do
+   bgit diff --cached $i
+   local amend=
+   if [[ $i == $lastcommited ]];then
+    amend="--amend "
+   fi
+ 
+   bgit commit $amend $i
+  done
+
+  for i in $newfile;
+   do
+    
+   echo "Adding new snippet $(basename $newfile)"|bgit commit -F -  $i
+  done
+
+)
+}
+
