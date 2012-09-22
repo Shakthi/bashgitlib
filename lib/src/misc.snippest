@@ -15,7 +15,10 @@ grf()
 
 gr()
 {
-  grep $1 -iIrn --color=auto ./ 2>/dev/null 
+ for i in $(find .  2>/dev/null );do 
+  
+  test -f $i && grep $1 -iHIn --color=auto $i 2>/dev/null 
+ done
 }
 psgrep()
 {
