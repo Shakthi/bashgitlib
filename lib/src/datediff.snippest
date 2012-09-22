@@ -17,7 +17,6 @@ datediff_now () {
 datediff_fromstamp (){
     date -r $1 +%+
 }
-
 datediff_subdates (){
    local sec;
     case $1 in

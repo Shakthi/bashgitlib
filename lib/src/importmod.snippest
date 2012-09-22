@@ -57,7 +57,7 @@ importmod_edit()
         $BGIT_BASEDIR/bbin/bgit add $fullname
 
     else
-        echo failed to source
+        (import debuglog; debuglog_error failed to source)
     fi
 
     fi
