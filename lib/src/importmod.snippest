@@ -105,18 +105,22 @@ importmod_commit()
   for i in $modified;
    do
    bgit diff --cached $i
-   local amend=
-   if [[ $i == $lastcommited ]];then
-    amend="--amend "
-   fi
+   local opt=
+   read -p "Proceed ?:"  opt
+   if [[ $opt != n ]];then
+    local amend=
+    if [[ $i == $lastcommited ]];then
+     amend="--amend "
+    fi
  
-   bgit commit $amend $i
+    bgit commit $amend $i
+   fi
   done
 
   for i in $newfile;
    do
-    
-   echo "Adding new snippet $(basename $newfile)"|bgit commit -F -  $i
+    vi $i
+   echo "Adding new snippet $(basename $newfile)"|bgit commit -F -e -  $i
   done
 
 )
