@@ -54,3 +54,63 @@ echolor()
 
   [[ $chomp == yes ]]&&echo
 }
+echoncolor()
+{
+
+  local chomp=yes
+  [[ $1 == -n ]] &&chomp=no&&shift 1 
+
+  local echolor_black=$(tput setaf 0)
+  local echolor_red=$(tput setaf 1)
+  local echolor_green=$(tput setaf 2)
+  local echolor_yellow=$(tput setaf 3)
+  local echolor_blue=$(tput setaf 4)
+  local echolor_megenta=$(tput setaf 5)
+  local echolor_cyan=$(tput setaf 6)
+  local echolor_white=$(tput setaf 7)
+  local echolor_term=$(tput op)
+  local echolor_attroff=$(tput sgr0)
+  local echolor_bold=$(tput bold)
+  local echolor_boldoff=$(tput sgr0)
+  local echolor_so=$(tput smso)
+  local echolor_soff=$(tput rmso)
+  local echolor_ul=$(tput smul)
+  local echolor_uloff=$(tput rmul)
+  local echolor_reverse=$(tput rev)
+  local echolor_reverseoff=$(tput sgr0)
+  local once=no
+  for i in $* ; do
+   if [[ $once == yes ]];then echo -n ' ' ; fi
+   echo -n $i \
+   |sed -E "s&<#black>|<#blac>|<#bla>|<#k>&&"\
+   |sed -E "s&<#red>|<#re>|<#r>&&"\
+   |sed -E "s&<#green>|<#gree>|<#gre>|<#gr>|<#g>&&" \
+   |sed -E "s&<#yellow>|<#yello>|<#yell>|<#yel>|<#ye>|<#y>&&" \
+   |sed -E "s&<#blu>|<#bl>|<#b>|<#blue>&&" \
+   |sed -E "s&<#megent>|<#megen>|<#mege>|<#meg>|<#me>|<#m>&&" \
+   |sed -E "s&<#cyan>|<#cya>|<#cy>|<#c>&&"\
+   |sed -E "s&<#white>|<#whit>|<#whi>|<#wh>|<#w>&&"\
+   |sed  "s&</#[a-z]*>&&"\
+   |sed  "s&<b>&$echolor_bold&" |sed "s&</b>&&"\
+   |sed  "s&<s>&$echolor_so&" |sed "s&</s>&&"\
+   |sed  "s&<u>&$echolor_ul&" |sed "s&</u>&&"\
+   |sed "s&<r>&$echolor_reverse&" |sed "s&</r>&&"\
+   | awk 'NR > 1 { print h } { h = $0 } END { ORS = ""; print h }'	
+   once=yes
+  done 
+  
+
+  [[ $chomp == yes ]]&&echo
+}
+
+
+echolort()
+{
+ if test -t 1 ;then
+  echolor "$@"
+ else
+  echoncolor "$@"
+ fi
+}
+ 
+
