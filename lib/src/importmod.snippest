@@ -98,22 +98,48 @@ importmod_commit()
 (
   import bgit debuglog
  
-  local newfile=$( bgit status|grep -E 'new file:'|tr  -s " "|tr "\t" " "|cut -f 4 -d ' ')
-  local modified=$( bgit status|grep modified:|tr  -s " "|tr "\t" " "|cut -f 3 -d ' ')
-
+  local newfile=$( bgit status --porcelain |grep '^A'|cut -f 3 -d ' ')
+  local modified=$( bgit status --porcelain |grep '^M'|cut -f 3 -d ' ')
   lastcommited=$(bgit log --name-only HEAD~1..HEAD|tail -n 1)
+
+
+  for i in $modified;
+   do
+    local amend=
+    if [[ $i == $lastcommited ]];then
+     amend="--amend "
+     else
+     continue 
+    fi
+ 
+   bgit diff --cached $i
+   local opt=
+   read -p "Proceed to commit $i?:"  opt
+   if [[ $opt == q ]];then
+    return 0
+   fi
+   if [[ $opt != n ]];then
+    bgit commit $amend $i
+   fi
+  done
+
+
+
+
+
+
+
   for i in $modified;
    do
    bgit diff --cached $i
    local opt=
-   read -p "Proceed ?:"  opt
+   read -p "Proceed to commit$i?:"  opt
+   if [[ $opt == q ]];then
+    return 0
+   fi
    if [[ $opt != n ]];then
-    local amend=
-    if [[ $i == $lastcommited ]];then
-     amend="--amend "
-    fi
  
-    bgit commit $amend $i
+    bgit commit $i
    fi
   done
 
