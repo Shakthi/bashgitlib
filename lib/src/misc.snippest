@@ -34,12 +34,19 @@ function renameRecursive() ## $1 $2 ##from to
 local OLDIFS=$IFS
  IFS='
 '
- for i in `find . |grep $1 `;
+ for i in `find -d .  |grep $1 `;
   do
      mv "$i" $(echo "$i"|sed s!"$1"!"$2"!  ) ;
   done
 
 IFS=$OLDIFS
+}
+
+function searchReplaceRecursive()
+{
+
+  find .  -type f -exec sed -i '' "s/$1/$2/" {} \;
+
 }
 
 suvi()
