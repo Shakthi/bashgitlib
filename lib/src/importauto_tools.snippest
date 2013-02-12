@@ -4,7 +4,7 @@
 ##version
 importauto_tools_imported=1 
 
-function import_auto()
+function import_always()
 {
  
   local name=$1
@@ -23,14 +23,14 @@ function import_auto_list()
 }
 
 
-function import_auto_create()
+function import_always_create()
 {
   local name=$1
   import_create $name
   import_auto $name
 }
 
-function import_unauto()
+function import_notalways()
 {
   local name=$1
   local fullname=$import_path/$name.snippest
