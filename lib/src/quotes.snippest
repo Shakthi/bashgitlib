@@ -10,7 +10,7 @@ quotes_get()
  network_isreachable_error ||return 1
 
   local scriptlist="$*"
-  local property=nsl1hgc1
+  local property=nsl1hgc1p2
   if [[ $# == 0 ]];then
   scriptlist=$(cat $import_configPath/quotes) 
   fi 
