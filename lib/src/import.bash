@@ -111,6 +111,7 @@ done
 fi
 (
 _import_envsetup --export
+export launcher_datapath=$BGIT_BASEDIR/config/launcher
 PATH=$BGIT_BASEDIR/bin:$BGIT_BASEDIR/lib/exec:$PATH launcherlauncher.bash 
 )
 

@@ -2,8 +2,8 @@
 import network
 set -x
 if [ ! -z $1 ];then
-  if grep -qv $1 $import_datapath/netrun ;then
-    echo $1 >>$import_datapath/netrun
+  if grep -qv $1 $launcher_datapath/netrun ;then
+    echo $1 >>$launcher_datapath/netrun
   fi
 
 else
@@ -13,8 +13,8 @@ wasreachable=no
 while true;do
     if network_isreachable; then
         if [[ $wasreachable == no ]];then
-                if [ -f  $import_datapath/netrun ];then
-                    for i in $(cat $import_datapath/netrun);
+                if [ -f  $launcher_datapath/netrun ];then
+                    for i in $(cat $launcher_datapath/netrun);
                         do
                         $i &
                     done
