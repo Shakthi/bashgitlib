@@ -3,9 +3,9 @@ selfdir=$(dirname $0)
 
 if [[ $# == 0 ]]
  then
- echo $(cat $selfdir/../config/gitdir )
+ echo "$selfdir/../packages/gitdb"
  exit 0
 fi
 
 
-exec git --git-dir=$(cat $selfdir/../config/gitdir ) "$@"
+exec git --git-dir="$selfdir/../packages/gitdb" "$@"
