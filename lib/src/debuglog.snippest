@@ -67,15 +67,20 @@ function debuglog_pop()
    set +x
   fi 	
 }
-function debuglog_unimport()
-{
 
- unset debuglog_imported
- unset debuglog_push
- unset debuglog_pop
- unset debuglogstack
- unset debuglog_die
- unset debuglog_unimport
+
+function debuglog_error()
+{
+( 
+ if [ -t 2 ];then 
+  import echolor
+  echolor '<b><#red>'"$*"'</b>' >/dev/stderr 
+ else
+  echo "$*" >/dev/stderr 
+ fi
+  
+)
 }
+
 
 

@@ -1,0 +1,33 @@
+#!/bin/bash
+#name:quotes
+
+##version
+quotes_imported=1 
+#source http://code.google.com/p/yahoo-finance-managed/wiki/csvQuotesDownload
+quotes_get()
+{
+( import network
+ network_isreachable_error ||return 1
+
+  local scriptlist="$*"
+  local property=nsl1hgc1p2
+  if [[ $# == 0 ]];then
+  scriptlist=$(cat $import_configPath/quotes) 
+  fi 
+  
+  local url="http://download.finance.yahoo.com/d/quotes.csv?s=$scriptlist&f=$property"
+  curl $url
+)
+}
+
+quotes_search()
+{
+(
+ import network
+network_isreachable_error ||return 1
+ import google
+ local argv="$*"
+ open http://finance.yahoo.com/lookup?s=$(url_encode "$argv")
+)
+ 
+}

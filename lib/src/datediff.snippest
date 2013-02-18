@@ -1,0 +1,35 @@
+#!/bin/bash
+#name:datediff
+#source:http://www.unix.com/tips-tutorials/31944-simple-date-time-calulation-bash.html
+##version
+datediff_imported=1 
+
+
+datediff_2stamp () {
+    date -j  -f "%+" "$1" +%s
+}
+
+datediff_now () {
+    date  +%s
+}
+
+
+datediff_fromstamp (){
+    date -r $1 +%+
+}
+datediff_subdates (){
+   local sec;
+    case $1 in
+        -s)   sec=1;      shift;;
+        -m)   sec=60;     shift;;
+        -h)   sec=3600;   shift;;
+        -d)   sec=86400;  shift;;
+        *)    sec=1;;
+    esac
+    local dte1=$(datediff_2stamp "$1")
+    local dte2=$(datediff_2stamp "$2")
+    local diffSec=$((dte2-dte1))
+    #if ((diffSec < 0)); then abs=-1; else abs=1; fi
+    echo $((diffSec/sec))
+}
+

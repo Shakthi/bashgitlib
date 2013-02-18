@@ -5,8 +5,6 @@ cd $selfdir/../
 mkdir packages/
 git config core.worktree ../../
 mv .git packages/gitdb
-./bbin/resetroot
-./bbin/bgit update-index --assume-unchanged ./config/gitdir
 ./bbin/bgit update-index --assume-unchanged ./README
 cat ./README >packages/gitdb/description
 rm ./README

@@ -7,7 +7,7 @@
 google_imported=1
 url_encode()
 {
- local string="${1}"
+ local string="$*"
   local strlen=${#string}
   local encoded=""
 
@@ -25,6 +25,28 @@ url_encode()
 }
 google_searh()
 {
+(
+import network;
+
+if  network_isreachable;then
+ return 0
+else
+ echo no network
+ return 1
+fi
+)||return 1
+      opener=open 
+      local application=
+      if [ x"$1" == x"safari:" -o x"$1" == x"chrome" ];then
+       
+      application="-a $(echo $1|sed s+:++)";shift 1
+      else
+         if [ x"$1" == xelinks: ];then
+              application=" $(echo $1|sed s+:++)";shift 1
+             opener=
+         fi  
+      fi
+ 
        local search=
 	if [ $# -eq 0 ]
 		then
@@ -44,14 +66,11 @@ google_searh()
 
 	local url="http://www.google.com/search?q=$search"
 	#echo $url
-	open "$url"
-
-}
-function google_unimport()
-{
-
- unset google_imported
- unset google_unimport
+        if [ ! -z $opener ];then
+	 $opener $application "$url"
+        else
+         $application "$url"
+        fi
 }
 
 
@@ -62,17 +81,36 @@ google_ping()
 }
 
 
+google_localping()
+{
+(
+ if test -f /Users/shakthiprasadgs/gitbin/lib/vardata/log/pppguard.log ;then
+
+  local cachedping=$(tail -n 11 /Users/shakthiprasadgs/gitbin/lib/vardata/log/pppguard.log |grep '#Date:'|sed 's+#Date:++')
+  if [ ! -z "$cachedping" ];then
+   import datediff;
+   local diffindate=$(datediff_subdates "$cachedping" "$(date)") 	
+    if [ $diffindate -le 40 ];then
+      tail -n 10 /Users/shakthiprasadgs/gitbin/lib/vardata/log/pppguard.log
+      return 0
+    fi 
+  fi
+ fi 
+  ping -c 4 -t 15  www.google.co.in
+)
+}
+
 google_mail()
 {
-
+(
 import network;
 
 if network_isreachable; then
 open -a 'Google Chrome' https://mail.google.com/mail/
 else
 echo "NO network."	 
-fi	
-
+fi
+)	
 }
 
 

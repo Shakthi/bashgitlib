@@ -22,7 +22,8 @@ cdlast()
   elif echo $1| grep -E ^[0-9]+$ -q;then
    lastcd=$(head -n$1 ~/.bash_cdhistory | tail -1)
   else
-   lastcd=$(grep -iE /$1[^/]*/$ ~/.bash_cdhistory | tail -1)
+   lastcd=$(grep -iE /$1[^/]*/?$ ~/.bash_cdhistory | tail -1)
+   echo $lastcd
   fi 
   
   if [ "x$lastcd" == 'x~/' ] ;then

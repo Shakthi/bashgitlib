@@ -64,6 +64,6 @@ gitreclone()
       gitreclone_handleint $gitdir $tempgitdir ;break
     fi
    done
- jobs |grep Running -q || test -d $gitdir && git --git-dir=$gitdir repack   
+# jobs |grep Running -q || test -d $gitdir && git --git-dir=$gitdir repack   
 }
 

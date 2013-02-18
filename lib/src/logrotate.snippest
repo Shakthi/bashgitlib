@@ -1,0 +1,13 @@
+#!/bin/bash
+#name:logrotate
+
+##version
+#source:http://stackoverflow.com/questions/1759448/why-doesnt-tail-work-to-truncate-log-files
+logrotate_imported=1 
+logrotate_rotate()
+{
+ 
+tail -2000 $1 >$1.tmp
+cat $1.tmp > $1
+rm $1.tmp
+}

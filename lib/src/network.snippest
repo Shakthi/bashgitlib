@@ -9,6 +9,16 @@ function network_isreachable()
  netstat -rn | grep -v link|grep -q ^default
 } 
 
+function network_isreachable_error()
+{
+  if  network_isreachable ;then
+   return 0
+  else
+   echo Network is not reachable
+   return 1
+  fi 
+} 
+
 function network_isppp()
 { 
   network_isreachable || return 1

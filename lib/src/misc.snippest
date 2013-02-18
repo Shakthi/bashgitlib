@@ -15,7 +15,10 @@ grf()
 
 gr()
 {
-  grep $1 -iIrn --color=auto ./ 2>/dev/null 
+ for i in $(find .  2>/dev/null );do 
+  
+  test -f $i && grep $1 -iHIn --color=auto $i 2>/dev/null 
+ done
 }
 psgrep()
 {
@@ -31,7 +34,7 @@ function renameRecursive() ## $1 $2 ##from to
 local OLDIFS=$IFS
  IFS='
 '
- for i in `find . |grep $1 `;
+ for i in `find -d .  |grep $1 `;
   do
      mv "$i" $(echo "$i"|sed s!"$1"!"$2"!  ) ;
   done
@@ -39,11 +42,20 @@ local OLDIFS=$IFS
 IFS=$OLDIFS
 }
 
+function searchReplaceRecursive()
+{
+
+  find .  -type f -exec sed -i '' "s/$1/$2/" {} \;
+
+}
+
 suvi()
 {
+
+(
   import backup;
   backup_sudovi $1
-
+)
 }
 
  
@@ -51,5 +63,10 @@ suvi()
 ynetslow()
 { 
  (sudo /usr/sbin/lsof -i -n )|grep -e "->" |tr -s ' '|cut -d ' ' -f 1,3,9 
+}
+
+ynettooslow()
+{ 
+ (sudo /usr/sbin/lsof -i )|grep -e "->" |tr -s ' '|cut -d ' ' -f 1,3,9 
 }
 

@@ -7,4 +7,4 @@ gitdir=$BGIT
 
 git clone $gitdir $dest
 cd $dest
-$dest/bbin/setuprepo
+./bbin/setuprepo
