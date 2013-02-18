@@ -72,7 +72,8 @@ gitpackup()
    if [ ! -d ./.git ];then
     return
    fi
-   
+   git stash -u
+ 
    local bundlename=$(basename $(pwd) )
    local gitparent=../
 
