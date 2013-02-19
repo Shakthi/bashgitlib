@@ -3,8 +3,21 @@
 #description -- This snippest  bla bla
 #import othersnippet
 git_imported=1
-source  /usr/local/git/contrib/completion/git-completion.bash
- 
+
+
+
+
+
+
+if [ -r /usr/local/git/contrib/completion/git-completion.bash ];then
+    /usr/local/git/contrib/completion/git-completion.bash
+else
+    if [ -r $import_path/git-completion.bash ];then
+
+        $import_path/git-completion.bash
+    fi
+fi
+
 
 
 function git_switch()
