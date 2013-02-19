@@ -7,6 +7,10 @@ misc_imported=1
 
 alias ls='ls -G'
 
+case $- in
+*i*)    bind TAB:menu-complete;;
+*)      : # non-interactive shell;;
+esac
 
 grf()
 {
