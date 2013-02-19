@@ -10,11 +10,11 @@ git_imported=1
 
 
 if [ -r /usr/local/git/contrib/completion/git-completion.bash ];then
-    /usr/local/git/contrib/completion/git-completion.bash
+    . /usr/local/git/contrib/completion/git-completion.bash
 else
     if [ -r $import_path/git-completion.bash ];then
 
-        $import_path/git-completion.bash
+    .  $import_path/git-completion.bash
     fi
 fi
 
