@@ -46,6 +46,13 @@ local OLDIFS=$IFS
 IFS=$OLDIFS
 }
 
+function trash()
+{
+osascript -e "tell application \"Finder\" to move POSIX file \"$1\" to trash" 1>/dev/null 
+
+
+} 
+
 function searchReplaceRecursive()
 {
 
