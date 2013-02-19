@@ -22,6 +22,7 @@ _importmod_edit_check()
     if  [[ $status == 0 ]];then
         :
     else
+        (import debuglog; debuglog_error "Error follows($status)")
         cat $erroroutput
     fi
 
