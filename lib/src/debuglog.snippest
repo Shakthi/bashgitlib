@@ -57,7 +57,7 @@ function debuglog_push()
 
 function debuglog_die()
 {
-  echo $* 1>&2 ;
+  debuglog_error $*
   exit 1
 }
 function debuglog_pop()

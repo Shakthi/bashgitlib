@@ -102,36 +102,45 @@ importmod_commit()
   local newfile=$( bgit status --porcelain |grep '^A'|cut -f 3 -d ' ')
   local modified=$( bgit status --porcelain |grep '^M'|cut -f 3 -d ' ')
   lastcommited=$(bgit log --name-only HEAD~1..HEAD|tail -n 1)
-
-
-  for i in $modified;
-   do
-    local amend=
-    if [[ $i == $lastcommited ]];then
-     amend="--amend "
-     else
-     continue 
-    fi
  
-   bgit diff --cached $i
-   local opt=
-   read -p "Proceed to commit $i?:"  opt
-   if [[ $opt == q ]];then
-    return 0
-   fi
-   if [[ $opt != n ]];then
-    bgit commit $amend $i
-   fi
-  done
+
+  branchstatus=$(bgit status);
+  
+  if cat "$branchstatus"|grep -qF "Your branch is ahead of 'origin/master' by " ;then
+
+   for i in $modified;
+    do
+     local amend=
+     if [[ $i == $lastcommited ]];then
+      amend="--amend "
+      else
+      continue 
+     fi
+  
+    bgit diff --cached $i
+    local opt=
+    read -p "Proceed to commit $i?:"  opt
+    if [[ $opt == q ]];then
+     return 0
+    fi
+    if [[ $opt != n ]];then
+     bgit commit $amend $i
+    fi
+   done
+ fi
 
 
 
-
-
+   
 
 
   for i in $modified;
    do
+
+   if [[ $i == $lastcommited ]];then
+    continue
+   fi
+
    bgit diff --cached $i
    local opt=
    read -p "Proceed to commit$i?:"  opt
