@@ -3,10 +3,12 @@
 #description -- This snippest  bla bla
 #import othersnippet
 
+
 misc_imported=1
 
 alias ls='ls -G'
 
+export PATH=~/bin:$PATH
 case $- in
 *i*)    bind TAB:menu-complete;;
 *)      : # non-interactive shell;;
