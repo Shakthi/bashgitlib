@@ -5,10 +5,16 @@
 ##version
 completion_imported=1 
 
-completion_load_macport()
+function completion_load_macport()
 {
 
-  [ -f /opt/local/etc/profile.d/bash_completion.sh  ] && . /opt/local/etc/profile.d/bash_completion.sh
+if [[ -r /usr/local/etc/profile.d/bash_completion.sh ]] ;then . /usr/local/etc/profile.d/bash_completion.sh
+else
+
+if [[ -r /opt/local/etc/profile.d/bash_completion.sh  ]] ;then . /opt/local/etc/profile.d/bash_completion.sh
+fi
+fi
+
 }
 
 completion_load_macport;
