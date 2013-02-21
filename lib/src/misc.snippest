@@ -19,7 +19,7 @@ grf()
 
 gr()
 {
- for i in $(find .  2>/dev/null );do 
+ for i in $(find .  2>/dev/null|grep -v -F /.svn );do 
   
   test -f $i && grep $1 -iHIn --color=auto $i 2>/dev/null 
  done
