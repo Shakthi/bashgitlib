@@ -16,7 +16,7 @@ function import_always()
   fi
 }
 
-function import_auto_list()
+function import_always_list()
 {
    local confpath=$import_datapath/autoimport
    cat $confpath
