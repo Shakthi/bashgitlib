@@ -1,8 +1,8 @@
 #!/bin/bash
-#name:importauto_tools
+#name:importalways_tools
 
 ##version
-importauto_tools_imported=1 
+importalways_tools_imported=1 
 
 function import_always()
 {
