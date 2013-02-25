@@ -13,6 +13,8 @@ function import_always()
   if [ -f $fullname ];then
    local confpath=$import_datapath/autoimport
    echo $name>>$confpath
+  else
+   ( import debuglog; debuglog_error "Error:Snippet '$name' is not found" ) 
   fi
 }
 
@@ -40,6 +42,8 @@ function import_notalways()
    local tempfile=`mktemp -q /tmp/import.XXXXXX`
    cat $confpath>$tempfile
    cat $tempfile |grep -v $name >$confpath  
+  else
+   ( import debuglog; debuglog_error "Error:Snippet '$name' is not found" ) 
   fi
   rm $tempfile
 }
