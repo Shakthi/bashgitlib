@@ -2,11 +2,12 @@
 #name:finderShowHidden
 
 ##version
+
 finderShowHidden_imported=1 
 
 finderShowHidden_isHidden()
 {
-  if [[ $(defaults read com.apple.Finder AppleShowAllFiles) == YES ]];then
+  if [[ $(defaults read com.apple.Finder AppleShowAllFiles) == 1 ]];then
 	return 1
   else
 	return 0
@@ -15,20 +16,21 @@ finderShowHidden_isHidden()
 }
 
 finderShowHidden_restart()
-{
-   osascript -e 'tell app "Finder" to quit'
+{  
+  killall Finder
+ # osascript -e 'tell app "Finder" to quit' 
    sleep 2
-   osascript -e 'tell app "Finder" to select window of desktop'
+   #osascript -e 'tell app "Finder" to select window of desktop' 2>/dev/null
+ osascript -e 'tell app "Finder" to activate'
 }
 
 finderShowHidden_setshow()
 {
- defaults write com.apple.Finder AppleShowAllFiles YES
+defaults write com.apple.finder AppleShowAllFiles -bool true
 }
-
 finderShowHidden_sethide()
 {
- defaults write com.apple.Finder AppleShowAllFiles NO
+defaults write com.apple.finder AppleShowAllFiles -bool false
 }
 
 finderShowHidden_switch()
