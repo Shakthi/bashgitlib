@@ -1,0 +1,6 @@
+#!/bin/bash
+set -x
+selfdir=$(dirname $0)
+$selfdir/bbin/setuprepo
+
+
