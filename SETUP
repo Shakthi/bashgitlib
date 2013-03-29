@@ -1,6 +1,34 @@
 #!/bin/bash
 set -x
 selfdir=$(dirname $0)
-$selfdir/bbin/setuprepo
+cd $selfdir
 
 
+#move git dir
+if [  -d  ./.git ];then
+mkdir packages/
+git config core.worktree ../../
+mv .git packages/gitdb
+fi
+
+#remove readme
+if [  -f  ./README ];then
+./bbin/bgit update-index --assume-unchanged ./README
+cat ./README >packages/gitdb/description
+rm ./README
+fi
+
+test -d ./packages/gitdb/info || mkdir -p ./packages/gitdb/info
+test -f ./packages/gitdb/info/exclude|| echo \n>./packages/gitdb/info/exclude
+
+grep -q packages/gitdb ./packages/gitdb/info/exclude || echo packages/gitdb >>packages/gitdb/info/exclude
+grep -q .DS_Store ./packages/gitdb/info/exclude || echo .DS_Store >>packages/gitdb/info/exclude
+
+
+
+./bbin/bgit repack
+./bbin/bgit status
+./bbin/initbashrc
+
+./bbin/bgit update-index --assume-unchanged ./SETUP
+rm ./SETUP
