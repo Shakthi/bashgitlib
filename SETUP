@@ -18,6 +18,11 @@ cat ./README >packages/gitdb/description
 rm ./README
 fi
 
+
+#setup upstream
+./bbin/bgit remote |grep -q upstream || ./bbin/bgit remote add upstream  git://github.com/Shakthi/bashgitlib.git
+
+
 test -d ./packages/gitdb/info || mkdir -p ./packages/gitdb/info
 test -f ./packages/gitdb/info/exclude|| echo \n>./packages/gitdb/info/exclude
 
