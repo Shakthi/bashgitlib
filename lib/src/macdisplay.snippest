@@ -1,0 +1,86 @@
+#!/bin/bash
+#name:macdisplay
+
+##version
+macdisplay_imported=1 
+macdispaly_display ()
+{
+
+ local localtemp=$(mktemp /tmp/macdispaly.XXXXXXXXXXX);
+
+{
+ #curl -u admin:admin http://192.168.1.1/dhcpinfo.html 2>/dev/null |elinks|less|grep '192.'|cut -d '|' -f 3|tr -d ' ';
+ curl -u admin:admin http://192.168.1.1/arpview.cmd 2>/dev/null |elinks|less|grep br0|cut -d '|' -f 4|tr -d ' '
+}|sort -u >$localtemp
+
+
+for i in `cat  $localtemp|sort -u`
+do
+if grep $i $import_configPath/macdisplay;then
+:
+else
+ echo '*** NEW ID***' $i
+ echo $i'|'NEWID>>  $import_configPath/macdisplay 
+fi
+
+done
+rm $localtemp
+}
+
+
+macdispaly_getunban_session ()
+{
+ curl -u admin:admin http://192.168.1.1/todadd.html 2>/dev/null |grep sessionKey|cut -d '&' -f 2|cut -d '=' -f 2|sed "s@';@@"
+}
+macdispaly_getban_session ()
+{
+ curl -u admin:admin http://192.168.1.1/todadd.html 2>/dev/null |grep sessionKey|cut -d '&' -f 2|cut -d '=' -f 2|sed "s@';@@"
+}
+macdispaly_ban ()
+{
+   if [ $# == 0 ] ;then
+    curl -u admin:admin http://192.168.1.1/todmngr.tod?action=view 2>/dev/null |elinks|grep '|'
+   else 
+      for i in `grep -i $1 $import_configPath/macdisplay`
+      do
+       echo Found $i 
+       local opt=n
+       read -p "Do you want to ban $i (y/n)?:" opt
+       if echo $opt |grep -qi y;then
+           local sessionKey=$(macdispaly_getban_session);
+           local macaddress=$(echo $i|cut -d "|" -f 1)
+           local macname=$(echo $i|cut -d "|" -f 2)
+          if [[ $macname != "" ]];then
+           curl -u admin:admin "http://192.168.1.1/todmngr.tod?action=add&username=$macname&mac=$macaddress&days=127&start_time=0&end_time=1439&sessionKey=$sessionKey" \
+2>/dev/null |grep $macname || echo '***failed***'
+
+          else
+           echo '***failed***'
+          fi
+       
+         
+fi
+      done
+   fi
+}
+
+
+
+macdispaly_unban ()
+{
+   if [ $# == 0 ] ;then
+    curl -u admin:admin http://192.168.1.1/todmngr.tod?action=view 2>/dev/null |elinks|grep '|'
+   else 
+      for i in `grep -i $1 $import_configPath/macdisplay`
+      do
+       echo Found $i 
+           local sessionKey=$(macdispaly_getunban_session);
+           local macaddress=$(echo $i|cut -d "|" -f 1)
+           local macname=$(echo $i|cut -d "|" -f 2)
+           curl -u admin:admin "http://192.168.1.1/todmngr.tod?action=remove&rmLst=$macname,%20&sessionKey=$sessionKey" 2>/dev/null |grep  error          
+      done
+   fi
+
+}
+
+
