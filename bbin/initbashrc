@@ -1,12 +1,15 @@
 #!/bin/bash
 set -x
 
-if [ x$BGIT_BASEDIR == x ] ;then 
+if [ x$BGIT_BASEDIR != x ] ;then
+    if [ -d $BGIT_BASEDIR ];then
+        exit 0
+    fi
+fi
 
 
 
    selfdir=$(cd 1>/dev/null $(dirname $0);pwd)
    $selfdir/setupbashrc
 
-fi
 
