@@ -4,10 +4,12 @@ selfdir=$(dirname $0)
 cd $selfdir
 
 
+
+
 #move git dir
 if [  -d  ./.git ];then
 mkdir packages/
-git config core.worktree ../../
+./bbin/bgit --original config core.worktree ../../
 mv .git packages/gitdb
 fi
 
