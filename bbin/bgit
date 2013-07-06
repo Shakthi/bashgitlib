@@ -1,11 +1,57 @@
 #!/bin/bash
 selfdir=$(dirname $0)
 
-if [[ $# == 0 ]]
- then
- echo "$selfdir/../packages/gitdb"
- exit 0
+
+BGITEXECNAME=git
+BGITDIRSTRUCTORIGINAL=no
+
+
+
+if [[ $# != 0 ]]
+then
+    if [[ $1 == "--original" ]]
+    then
+        BGITDIRSTRUCTORIGINAL=yes
+        shift 1
+    fi
+
 fi
 
 
-exec git --git-dir="$selfdir/../packages/gitdb" "$@"
+if [[ $# == 0 ]]
+then
+echo "$selfdir/../packages/gitdb"
+exit 0
+fi
+
+
+
+BGITGITCHECK=$( $BGITEXECNAME --version  2>/dev/null)
+
+if [ "x$BGITGITCHECK" == x ];then
+
+BGITEXECNAME=/Applications/Xcode.app/Contents/Developer/usr/bin/git
+
+BGITGITCHECK=$( $BGITEXECNAME --version  2>/dev/null)
+
+    if [ "x$BGITGITCHECK" == x ];then
+
+        BGITEXECNAME=/usr/local/git/bin/git
+    fi
+
+
+
+
+fi
+
+
+
+if [ $BGITDIRSTRUCTORIGINAL == yes ];then
+    exec $BGITEXECNAME  "$@"
+else
+    exec $BGITEXECNAME --git-dir="$selfdir/../packages/gitdb" "$@"
+fi
+
+
+
+
