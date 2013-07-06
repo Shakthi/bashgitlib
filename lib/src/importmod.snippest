@@ -98,7 +98,6 @@ importmod_commit()
 {
 (
   import bgit debuglog
- 
   local newfile=$( bgit status --porcelain |grep '^A'|cut -f 3 -d ' ')
   local modified=$( bgit status --porcelain |grep '^M'|cut -f 3 -d ' ')
   lastcommited=$(bgit log --name-only HEAD~1..HEAD|tail -n 1)
@@ -156,7 +155,7 @@ importmod_commit()
   for i in $newfile;
    do
     vi $i
-   echo "Adding new snippet $(basename $newfile)"|bgit commit -F -e -  $i
+   echo "Adding new snippet $(basename $newfile)"|bgit commit -e -F /dev/stdin  $i
   done
 
 )
