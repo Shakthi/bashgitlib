@@ -2,7 +2,7 @@
 set -x
 
 if [ x$BGIT_BASEDIR != x ] ;then
-    if [ -d $BGIT_BASEDIR ];then
+    if [ -f $BGIT_BASEDIR/bbin/initbashrc ];then
         exit 0
     fi
 fi
@@ -11,5 +11,3 @@ fi
 
    selfdir=$(cd 1>/dev/null $(dirname $0);pwd)
    $selfdir/setupbashrc
-
-
