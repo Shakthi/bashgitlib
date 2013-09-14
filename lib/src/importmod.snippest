@@ -69,7 +69,7 @@ importmod_edit()
 
 importmod_add()
 {
-(import debuglog
+(import debuglog bgit
  local name=$1
   local fullname=$import_path/$name.snippest
    if [ -f $fullname ];then
