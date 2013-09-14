@@ -1,0 +1,14 @@
+#!/bin/bash
+#name:id3tag_replace
+
+##version
+id3tag_replace_imported=1 
+
+id3dtag_replace_file()
+{
+   local tagname=$1;
+   local format=$2;
+   local file=$3;
+
+   id3info $file |grep TIT2|cut -d: -f 2
+}
